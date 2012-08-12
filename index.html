@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+
+<!-- paulirish.com/2008/conditional-stylesheets-vs-css-hacks-answer-neither/ -->
+<!--[if lt IE 7]> <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="en"> <![endif]-->
+<!--[if IE 7]>    <html class="no-js lt-ie9 lt-ie8" lang="en"> <![endif]-->
+<!--[if IE 8]>    <html class="no-js lt-ie9" lang="en"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en"> <!--<![endif]-->
+<head>
+  <meta charset="utf-8" />
+
+  <!-- Set the viewport width to device width for mobile -->
+  <meta name="viewport" content="width=device-width" />
+
+  <title>Welcome to Instatrends.net</title>
+
+  <!-- Included CSS Files -->
+  <link rel="stylesheet" href="stylesheets/foundation.css">
+  <link rel="stylesheet" href="stylesheets/app.css">
+  <link rel="stylesheet" type="text/css" href="css/style.css" media="screen" />
+   <link rel="stylesheet" href="css/lightbox.css" type="text/css" media="screen" />
+   <link href='http://fonts.googleapis.com/css?family=Kaushan+Script' rel='stylesheet' type='text/css'>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js" type="text/javascript"></script>
+  <script src="javascripts/modernizr.foundation.js"></script>
+  <script src="js/lightbox.js"></script>
+  <script type="text/javascript">
+
+
+
+$(document).ready(function() {
+  getTwitter();
+  $('#refresh').click(function() {
+ 
+            location.reload();
+ 
+  });
+});
+
+function getInstagram(trendsInsta) { 
+    //getting the search tag from getTwitter function
+      for (var o = 0; o <= 20; o++) {
+        var searchText =  trendsInsta[o];
+    url="https://api.instagram.com/v1/tags/"+searchText+"/media/recent?access_token=26778084.0dbb2ff.76da39cc1d0b4878b64fc7f132813bf7";
+    $.ajax({
+        type: "GET",
+        dataType: "jsonp",
+        cache: false,
+        url: url,
+        success: function(data) {
+            for (var i=0; i <=0; i++) {
+                $("#trends").prepend("<p>"+data.data[i].tags[0]+"</p><a href='"+data.data[i].images.standard_resolution.url+"' rel='lightbox[insta]' ><img src="+data.data[i].images.thumbnail.url+" alt='...' title="+data.data[i].tags[0]+" class='instaImg'/></a><a href='"+data.data[i+1].images.standard_resolution.url+"' rel='lightbox[insta]' ><img src="+data.data[i+1].images.thumbnail.url+" alt='...' title="+data.data[i+1].tags[0]+"  class='instaImg'/></a><a href='"+data.data[i+2].images.standard_resolution.url+"' rel='lightbox[insta]' ><img src="+data.data[i+2].images.thumbnail.url+" alt='...' title="+data.data[i+2].tags[0]+" class='instaImg'/></a><a href='"+data.data[i+3].images.standard_resolution.url+"' rel='lightbox[insta]' ><img src="+data.data[i+3].images.thumbnail.url+" alt='...' title="+data.data[i+3].tags[0]+" class='instaImg'/></a><a href='"+data.data[i+4].images.standard_resolution.url+"' rel='lightbox[insta]' ><img src="+data.data[i+4].images.thumbnail.url+" alt='...' title="+data.data[i+4].tags[0]+"  class='instaImg'/></a><hr />")
+                         }
+                  }
+    });
+};
+    };
+
+//Getting the newest twitter trends from the streaming api
+function getTwitter(){
+$.getJSON("https://api.twitter.com/1/trends/daily.json?callback=?", function(data) {
+  var trendsArray = new Array();
+   $.each(data.trends, function( date, trends ) {
+                $.each(trends, function( i, trend ) {
+                  var trend=(trend.name.replace(/ /g,'').replace('#',''));
+                  var trendClean = trend.toLowerCase();
+                  trendsArray.push(trendClean);
+                });
+            });  
+             getInstagram(trendsArray); 
+});
+
+};
+  </script>
+
+</head>
+<body>
+
+  <div class="row">
+    <div class="twelve columns">
+      <h2>Instatrends.com</h2>
+      <p>The most popular Twitter topics visualized by Instagram</p>
+      <hr />
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="twelve columns">
+      
+
+      <!-- Grid Example -->
+      <div class="row">
+        <div class="twelve columns">
+          <div class="panel">
+             <a style="float:right;" id="refresh" href="#" class="[radius, round] button">refresh</a>
+            <h3>The Trends</h3>
+            <div id="trends">
+             
+            </div>
+          </div>
+        </div>
+      </div>
+
+  <!-- Included JS Files (Compressed) -->
+  <script src="javascripts/foundation.js"></script>
+  
+  <!-- Initialize JS Plugins -->
+  <script src="javascripts/app.js"></script>
+</body>
+</html>

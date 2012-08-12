@@ -1,0 +1,14 @@
+body {
+margin: 0px;
+padding: 0px;
+background-image: url(pics/page-background.png);
+background-repeat: repeat;
+color: white;
+}
+p {
+	text-transform: uppercase;
+}
+
+.panel{
+	background-image: url(pics/panel-background.png);
+}
